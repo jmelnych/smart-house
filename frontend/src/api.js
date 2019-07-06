@@ -1,3 +1,7 @@
+import axios from 'axios';
+
+const API_URL = 'http://localhost:4000';
+
 let index = 3;
 let devices = {
     device1: {
@@ -17,39 +21,27 @@ let devices = {
 };
 
 export async function getDevices() {
-    return Object.values(devices);
+    const response = await axios.get(`${API_URL}/devices`);
+    return response.data;
 }
 
 export async function getDeviceById(deviceId) {
-    return devices[deviceId];
+  const response = await axios.get(`${API_URL}/devices/${deviceId}`);
+  return response.data;
 }
 
 export async function addDevice(device) {
-    index += 1;
-    devices[index] = {
-        id: index,
-        state: 'off',
-        ...device
-    };
+  const response = await axios.post(`${API_URL}/devices`, device);
+  return response.data;
 }
 
 export async function removeDevice(deviceId) {
-    devices = {
-        ...devices,
-        [deviceId]: undefined
-    };
-
-    delete devices[deviceId];
+  const response = await axios.delete(`${API_URL}/devices/${deviceId}`);
+  return response.data;
 }
 
 export async function updateDevice(deviceId, data) {
-    devices = {
-        ...devices,
-        [deviceId]: {
-            ...devices[deviceId],
-            ...data
-        }
-    };
+  await axios.patch(`${API_URL}/devices/${deviceId}`, data);
 }
 
 export async function switchOn(deviceId) {
