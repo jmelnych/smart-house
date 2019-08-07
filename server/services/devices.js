@@ -54,6 +54,7 @@ async function updateDevice(deviceId, data) {
     return null;
   }
 
+  /* updating state of bulbs
   if (data.state) {
     await updateDeviceState(
       device.address,
@@ -61,6 +62,7 @@ async function updateDevice(deviceId, data) {
       data.state
     )
   }
+  */
     await Device.findByIdAndUpdate(deviceId, data).exec();
 }
 
