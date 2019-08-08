@@ -1,8 +1,12 @@
 const Group = require('../models/group');
+const devicesService = require('./devices');
 
 module.exports = {
     getGroups,
-    addGroup
+    addGroup,
+    getGroupById,
+    updateGroup,
+    removeGroup
 };
 
 function groupAdapter(group) {
@@ -20,7 +24,7 @@ async function getGroups() {
     return groups.map(groupAdapter);
 };
 
-async function addGroup({ name, devices }) {
+async function addGroup({name, devices}) {
     const newGroup = new Group({
         state: 'off',
         name,
@@ -28,4 +32,27 @@ async function addGroup({ name, devices }) {
     });
 
     await newGroup.save();
+}
+
+async function getGroupById(id) {
+    const group = await Group.findById(id).exec();
+    if (group) {
+        return groupAdapter(group);
+    } else {
+        return null;
+    }
+}
+
+async function updateGroup(groupId, data) {
+    const group = await Group.findById(groupId).exec();
+    if (!group) {
+        return null;
+    }
+    await Group.findByIdAndUpdate(groupId, data).exec();
+    Group.findByIdAndUpdate(groupId, data).exec();
+    await group.devices.map(async deviceId => await devicesService.updateDevice(deviceId, {state: data.state}));
+}
+
+async function removeGroup(groupId) {
+    await Group.findByIdAndDelete(groupId).exec();
 }
