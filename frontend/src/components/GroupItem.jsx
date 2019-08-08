@@ -33,7 +33,7 @@ DeviceItem.defaultProps = {
 
 DeviceItem.propTypes = {
     group: PropTypes.shape({
-        id: PropTypes.number.isRequired,
+        id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired
     }),
     index: PropTypes.number.isRequired,

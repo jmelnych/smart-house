@@ -7,6 +7,11 @@ export async function getDevices() {
     return response.data;
 }
 
+export async function getGroups() {
+    const response = await axios.get(`${API_URL}/groups/`);
+    return response.data;
+}
+
 export async function getDeviceById(deviceId) {
   const response = await axios.get(`${API_URL}/devices/${deviceId}`);
   return response.data;
@@ -15,6 +20,12 @@ export async function getDeviceById(deviceId) {
 export async function addDevice(device) {
   const response = await axios.post(`${API_URL}/devices`, device);
   return response.data;
+}
+
+export async function addGroup(group) {
+    console.log('group', group);
+    const response = await axios.post(`${API_URL}/groups`, group);
+    return response.data;
 }
 
 export async function removeDevice(deviceId) {
@@ -39,6 +50,6 @@ export async function switchOff(deviceId) {
 }
 
 export async function getDeviceLog(deviceId) {
-  const response = await axios.get(`${API_URL}/log/devices/${deviceId}`);
+  const response = await axios.get(`${API_URL}/devices/log/${deviceId}`);
   return response.data;
 }

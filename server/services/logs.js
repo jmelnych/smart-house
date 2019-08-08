@@ -1,9 +1,7 @@
 const Log = require('../models/log');
-const sendRequest = require('../utils/request');
 
 module.exports = {
-  getLogs,
-  getLogByDeviceId,
+  getLogsByDeviceId,
   addDeviceLog
 };
 
@@ -17,18 +15,9 @@ function logAdapter(log) {
   }
 }
 
-async function getLogs() {
-  const logs = await Log.find({}).exec();
-  return logAdapter(logs);
-}
-
-async function getLogByDeviceId(id) {
-  const log = await Log.findById(id).exec();
-  if (log) {
-    return logAdapter(log);
-  } else {
-    return null;
-  }
+async function getLogsByDeviceId(deviceId) {
+  const deviceLogs = await Log.find({ device_id: deviceId}).exec();
+  return deviceLogs.map(logAdapter);
 }
 
 async function addDeviceLog(deviceId, action) {

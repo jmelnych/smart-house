@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/node-workshop', {useNewUrlParser: true});
 
 const devicesRouter = require('./routes/devices');
-const logRouter = require('./routes/log');
+const groupsRouter = require('./routes/groups');
 const corsMiddleware = require('./middlewares/cors');
 
 app.get('/', (req, res) => {
@@ -15,8 +15,9 @@ app.get('/', (req, res) => {
 
 app.use(corsMiddleware);
 app.use(express.json());
+
 app.use('/devices', devicesRouter);
-app.use('/log', logRouter);
+app.use('/groups', groupsRouter);
 
 app.listen(PORT, () => {
   console.log('Server is listening on port', PORT);

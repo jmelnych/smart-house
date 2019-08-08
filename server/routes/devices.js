@@ -20,6 +20,12 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.get('/log/:id', async (req, res) => {
+  const { id } = req.params;
+  const deviceLog = await logsService.getLogsByDeviceId(id);
+  res.json(deviceLog);
+});
+
 router.post('/', async (req, res) => {
   const { name, address, port } = req.body;
   await devicesService.addDevice({
